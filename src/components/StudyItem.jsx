@@ -1,5 +1,9 @@
+import { memo } from "react";
+
 function StudyItem({ item, isFavorite, onToggleFavorite }) {
   const { id, title, desc, category, level } = item;
+
+  console.log(`${title} 렌더링`);
 
   return (
     <li>
@@ -16,4 +20,4 @@ function StudyItem({ item, isFavorite, onToggleFavorite }) {
   );
 }
 
-export default StudyItem;
+export default memo(StudyItem);

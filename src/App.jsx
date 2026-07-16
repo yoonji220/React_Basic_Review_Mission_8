@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import "./App.css";
 import SearchForm from "./components/SearchForm";
 import StudyList from "./components/StudyList";
@@ -20,11 +20,11 @@ function App() {
     setCategory(value);
   };
 
-  const handleToggleFavorite = id => {
+  const handleToggleFavorite = useCallback(id => {
     setFavoriteIds(prev =>
       prev.includes(id) ? prev.filter(itemId => itemId !== id) : [...prev, id],
     );
-  };
+  }, []);
 
   const handleToggleFavoriteOnly = () => {
     setFavoriteOnly(prev => !prev);
