@@ -9,6 +9,7 @@ function App() {
   const [keyword, setKeyword] = useState("");
   const [category, setCategory] = useState("all");
   const [favoriteIds, setFavoriteIds] = useState([]);
+  const [favoriteOnly, setFavoriteOnly] = useState(false);
 
   const handleChangeKeyword = e => {
     setKeyword(e.target.value);
@@ -24,14 +25,19 @@ function App() {
     );
   };
 
+  const handleToggleFavoriteOnly = () => {
+    setFavoriteOnly(prev => !prev);
+  };
+
   const filteredData = reactData.filter(item => {
     const matchKeyword = item.title
       .toLowerCase()
       .includes(keyword.toLowerCase());
 
     const matchCategory = category === "all" || item.category === category;
+    const matchFavorite = !favoriteOnly || favoriteIds.includes(item.id);
 
-    return matchKeyword && matchCategory;
+    return matchKeyword && matchCategory && matchFavorite;
   });
 
   const categories = ["all", ...new Set(reactData.map(item => item.category))];
@@ -55,6 +61,10 @@ function App() {
         category={category}
         onChangeCategory={handleChangeCategory}
       />
+
+      <button type="button" onClick={handleToggleFavoriteOnly}>
+        {favoriteOnly ? "전체 보기" : "즐겨찾기만 보기"}
+      </button>
 
       <section>
         <h2>학습 목록</h2>
