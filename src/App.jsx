@@ -8,6 +8,7 @@ import CategoryFilter from "./components/CategoryFilter";
 function App() {
   const [keyword, setKeyword] = useState("");
   const [category, setCategory] = useState("all");
+  const [favoriteIds, setFavoriteIds] = useState([]);
 
   const handleChangeKeyword = e => {
     setKeyword(e.target.value);
@@ -15,6 +16,12 @@ function App() {
 
   const handleChangeCategory = value => {
     setCategory(value);
+  };
+
+  const handleToggleFavorite = id => {
+    setFavoriteIds(prev =>
+      prev.includes(id) ? prev.filter(itemId => itemId !== id) : [...prev, id],
+    );
   };
 
   const filteredData = reactData.filter(item => {
@@ -51,7 +58,11 @@ function App() {
 
       <section>
         <h2>학습 목록</h2>
-        <StudyList items={filteredData} />
+        <StudyList
+          items={filteredData}
+          favoriteIds={favoriteIds}
+          onToggleFavorite={handleToggleFavorite}
+        />
       </section>
     </main>
   );

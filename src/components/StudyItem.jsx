@@ -1,5 +1,5 @@
-function StudyItem({ item }) {
-  const { title, desc, category, level } = item;
+function StudyItem({ item, isFavorite, onToggleFavorite }) {
+  const { id, title, desc, category, level } = item;
 
   return (
     <li>
@@ -8,6 +8,10 @@ function StudyItem({ item }) {
       <p>
         분류: {category} / 난이도: {level}
       </p>
+
+      <button type="button" onClick={() => onToggleFavorite(id)}>
+        {isFavorite ? "★ 즐겨찾기 해제" : "☆ 즐겨찾기"}
+      </button>
     </li>
   );
 }
