@@ -54,7 +54,7 @@ function App() {
     setFavoriteOnly(false);
 
     // searchInputRef.current.value = "";
-    searchInputRef.current.focus();
+    searchInputRef.current?.focus();
   };
 
   const filteredData = useMemo(() => {
