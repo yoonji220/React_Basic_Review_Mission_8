@@ -12,6 +12,7 @@ function App() {
   const [favoriteIds, setFavoriteIds] = useState([]);
   const [favoriteOnly, setFavoriteOnly] = useState(false);
   const searchInputRef = useRef(null);
+  const renderCount = useRef(0);
 
   const handleChangeKeyword = e => {
     setKeyword(e.target.value);
@@ -64,6 +65,8 @@ function App() {
     };
   }, [filteredData, favoriteIds]);
 
+  renderCount.current += 1;
+
   return (
     <main>
       <header>
@@ -97,6 +100,7 @@ function App() {
       </button>
 
       <StudySummary summary={summary} />
+      <p>렌더링 횟수 : {renderCount.current}</p>
 
       <section>
         <h2>학습 목록</h2>
