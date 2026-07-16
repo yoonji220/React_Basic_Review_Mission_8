@@ -4,6 +4,7 @@ import SearchForm from "./components/SearchForm";
 import StudyList from "./components/StudyList";
 import reactData from "./data/data.json";
 import CategoryFilter from "./components/CategoryFilter";
+import StudySummary from "./components/StudySummary";
 
 function App() {
   const [keyword, setKeyword] = useState("");
@@ -45,6 +46,14 @@ function App() {
 
   const categories = ["all", ...new Set(reactData.map(item => item.category))];
 
+  const summary = useMemo(() => {
+    return {
+      total: reactData.length,
+      visible: filteredData.length,
+      favorite: favoriteIds.length,
+    };
+  }, [filteredData, favoriteIds]);
+
   return (
     <main>
       <header>
@@ -68,6 +77,8 @@ function App() {
       <button type="button" onClick={handleToggleFavoriteOnly}>
         {favoriteOnly ? "전체 보기" : "즐겨찾기만 보기"}
       </button>
+
+      <StudySummary summary={summary} />
 
       <section>
         <h2>학습 목록</h2>
