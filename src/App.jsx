@@ -5,10 +5,12 @@ import StudyList from "./components/StudyList";
 import reactData from "./data/data.json";
 import CategoryFilter from "./components/CategoryFilter";
 import StudySummary from "./components/StudySummary";
+import LevelFilter from "./components/LevelFilter";
 
 function App() {
   const [keyword, setKeyword] = useState("");
   const [category, setCategory] = useState("all");
+  const [level, setLevel] = useState("all");
   const [favoriteIds, setFavoriteIds] = useState([]);
   const [favoriteOnly, setFavoriteOnly] = useState(false);
   const searchInputRef = useRef(null);
@@ -27,6 +29,10 @@ function App() {
     setCategory(value);
   };
 
+  const handleChangeLevel = value => {
+    setLevel(value);
+  };
+
   const handleToggleFavorite = useCallback(id => {
     setFavoriteIds(prev =>
       prev.includes(id) ? prev.filter(itemId => itemId !== id) : [...prev, id],
@@ -40,6 +46,7 @@ function App() {
   const handleReset = () => {
     setKeyword("");
     setCategory("all");
+    setLevel("all");
     setFavoriteOnly(false);
 
     // searchInputRef.current.value = "";
@@ -53,14 +60,15 @@ function App() {
         .includes(keyword.toLowerCase());
 
       const matchCategory = category === "all" || item.category === category;
-
       const matchFavorite = !favoriteOnly || favoriteIds.includes(item.id);
+      const matchLevel = level === "all" || item.level === level;
 
-      return matchKeyword && matchCategory && matchFavorite;
+      return matchKeyword && matchCategory && matchLevel && matchFavorite;
     });
-  }, [keyword, category, favoriteOnly, favoriteIds]);
+  }, [keyword, category, level, favoriteOnly, favoriteIds]);
 
   const categories = ["all", ...new Set(reactData.map(item => item.category))];
+  const levels = ["all", ...new Set(reactData.map(item => item.level))];
 
   const summary = useMemo(() => {
     return {
@@ -94,6 +102,12 @@ function App() {
         categories={categories}
         category={category}
         onChangeCategory={handleChangeCategory}
+      />
+
+      <LevelFilter
+        levels={levels}
+        level={level}
+        onChangeLevel={handleChangeLevel}
       />
 
       <button type="button" onClick={handleToggleFavoriteOnly}>
