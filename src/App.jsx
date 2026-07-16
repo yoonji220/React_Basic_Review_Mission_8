@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import "./App.css";
 import SearchForm from "./components/SearchForm";
 import StudyList from "./components/StudyList";
@@ -29,16 +29,19 @@ function App() {
     setFavoriteOnly(prev => !prev);
   };
 
-  const filteredData = reactData.filter(item => {
-    const matchKeyword = item.title
-      .toLowerCase()
-      .includes(keyword.toLowerCase());
+  const filteredData = useMemo(() => {
+    return reactData.filter(item => {
+      const matchKeyword = item.title
+        .toLowerCase()
+        .includes(keyword.toLowerCase());
 
-    const matchCategory = category === "all" || item.category === category;
-    const matchFavorite = !favoriteOnly || favoriteIds.includes(item.id);
+      const matchCategory = category === "all" || item.category === category;
 
-    return matchKeyword && matchCategory && matchFavorite;
-  });
+      const matchFavorite = !favoriteOnly || favoriteIds.includes(item.id);
+
+      return matchKeyword && matchCategory && matchFavorite;
+    });
+  }, [keyword, category, favoriteOnly, favoriteIds]);
 
   const categories = ["all", ...new Set(reactData.map(item => item.category))];
 
