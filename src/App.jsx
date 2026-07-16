@@ -18,6 +18,10 @@ function App() {
   const previousKeywordRef = useRef("");
 
   useEffect(() => {
+    searchInputRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
     previousKeywordRef.current = keyword;
   }, [keyword]);
 
