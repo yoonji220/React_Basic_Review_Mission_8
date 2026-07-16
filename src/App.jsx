@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useRef } from "react";
+import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import "./App.css";
 import SearchForm from "./components/SearchForm";
 import StudyList from "./components/StudyList";
@@ -13,6 +13,11 @@ function App() {
   const [favoriteOnly, setFavoriteOnly] = useState(false);
   const searchInputRef = useRef(null);
   const renderCount = useRef(0);
+  const previousKeywordRef = useRef("");
+
+  useEffect(() => {
+    previousKeywordRef.current = keyword;
+  }, [keyword]);
 
   const handleChangeKeyword = e => {
     setKeyword(e.target.value);
@@ -101,6 +106,9 @@ function App() {
 
       <StudySummary summary={summary} />
       <p>렌더링 횟수 : {renderCount.current}</p>
+
+      <p>현재 검색어: {keyword}</p>
+      <p>이전 검색어: {previousKeywordRef.current}</p>
 
       <section>
         <h2>학습 목록</h2>
