@@ -6,14 +6,20 @@ function StudyItem({ item, isFavorite, onToggleFavorite }) {
   console.log(`${title} 렌더링`);
 
   return (
-    <li>
-      <h3>{title}</h3>
-      <p>{desc}</p>
-      <p>
-        분류: {category} / 난이도: {level}
-      </p>
+    <li className={`study-item ${isFavorite ? "favorite" : ""}`}>
+      <div className="study-item-header">
+        <h3>{title}</h3>
+        <span className="level-badge">{level}</span>
+      </div>
 
-      <button type="button" onClick={() => onToggleFavorite(id)}>
+      <p className="study-desc">{desc}</p>
+      <p className="study-meta">분류: {category}</p>
+
+      <button
+        type="button"
+        className="favorite-button"
+        onClick={() => onToggleFavorite(id)}
+      >
         {isFavorite ? "★ 즐겨찾기 해제" : "☆ 즐겨찾기"}
       </button>
     </li>

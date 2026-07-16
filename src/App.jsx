@@ -81,56 +81,81 @@ function App() {
   renderCount.current += 1;
 
   return (
-    <main>
-      <header>
-        <p>React Basic Review Mission 8</p>
+    <main className="app">
+      <header className="app-header">
+        <p className="eyebrow">React Basic Review Mission 8</p>
         <h1>React Hooks 학습 목록 관리</h1>
-        <p>useState, useMemo, useCallback, useRef를 활용한 복습 미션입니다.</p>
+        <p className="header-desc">
+          useState, useMemo, useCallback, useRef를 활용한 복습 미션입니다.
+        </p>
       </header>
 
-      <section>
-        <h2>학습 항목 검색</h2>
+      <section className="control-panel">
+        <div className="control-group">
+          <h2>학습 항목 검색</h2>
 
-        <SearchForm
-          keyword={keyword}
-          onChangeKeyword={handleChangeKeyword}
-          searchInputRef={searchInputRef}
-        />
+          <SearchForm
+            keyword={keyword}
+            onChangeKeyword={handleChangeKeyword}
+            searchInputRef={searchInputRef}
+          />
+        </div>
+
+        <div className="control-group">
+          <h2>카테고리</h2>
+
+          <CategoryFilter
+            categories={categories}
+            category={category}
+            onChangeCategory={handleChangeCategory}
+          />
+        </div>
+
+        <div className="control-group">
+          <h2>난이도</h2>
+
+          <LevelFilter
+            levels={levels}
+            level={level}
+            onChangeLevel={handleChangeLevel}
+          />
+        </div>
+
+        <div className="control-actions">
+          <button
+            type="button"
+            className={favoriteOnly ? "active" : ""}
+            onClick={handleToggleFavoriteOnly}
+          >
+            {favoriteOnly ? "전체 항목 보기" : "즐겨찾기만 보기"}
+          </button>
+
+          <button type="button" className="reset-button" onClick={handleReset}>
+            초기화
+          </button>
+        </div>
       </section>
 
-      <CategoryFilter
-        categories={categories}
-        category={category}
-        onChangeCategory={handleChangeCategory}
-      />
-
-      <LevelFilter
-        levels={levels}
-        level={level}
-        onChangeLevel={handleChangeLevel}
-      />
-
-      <button type="button" onClick={handleToggleFavoriteOnly}>
-        {favoriteOnly ? "전체 보기" : "즐겨찾기만 보기"}
-      </button>
-
-      <button type="button" onClick={handleReset}>
-        초기화
-      </button>
-
       <StudySummary summary={summary} />
-      <p>렌더링 횟수 : {renderCount.current}</p>
 
-      <p>현재 검색어: {keyword}</p>
-      <p>이전 검색어: {previousKeywordRef.current}</p>
+      <section className="debug-info">
+        <p>현재 검색어: {keyword || "-"}</p>
+        <p>이전 검색어: {previousKeywordRef.current || "-"}</p>
+        <p>App 렌더링 횟수: {renderCount.current}회</p>
+      </section>
 
-      <section>
+      <section className="study-section">
         <h2>학습 목록</h2>
-        <StudyList
-          items={filteredData}
-          favoriteIds={favoriteIds}
-          onToggleFavorite={handleToggleFavorite}
-        />
+
+        {filteredData.length === 0 ? (
+          <p className="no-result">조건에 맞는 학습 항목이 없습니다.</p>
+        ) : (
+          <StudyList
+            items={filteredData}
+            favoriteIds={favoriteIds}
+            onToggleFavorite={handleToggleFavorite}
+          />
+        )}
       </section>
     </main>
   );

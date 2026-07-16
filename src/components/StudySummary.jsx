@@ -2,11 +2,22 @@ function StudySummary({ summary }) {
   const { total, visible, favorite } = summary;
 
   return (
-    <div>
-      <p>전체 항목: {total}개</p>
-      <p>현재 표시: {visible}개</p>
-      <p>즐겨찾기: {favorite}개</p>
-    </div>
+    <section className="summary">
+      <div>
+        <span>전체 항목</span>
+        <strong>{total}개</strong>
+      </div>
+
+      <div>
+        <span>현재 표시</span>
+        <strong>{visible}개</strong>
+      </div>
+
+      <div>
+        <span>즐겨찾기</span>
+        <strong>{favorite}개</strong>
+      </div>
+    </section>
   );
 }
 

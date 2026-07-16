@@ -2,7 +2,7 @@ import StudyItem from "./StudyItem";
 
 function StudyList({ items, favoriteIds, onToggleFavorite }) {
   return (
-    <ul>
+    <ul className="study-list">
       {items.map(item => (
         <StudyItem
           key={item.id}
