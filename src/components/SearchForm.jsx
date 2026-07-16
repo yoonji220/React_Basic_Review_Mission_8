@@ -1,7 +1,8 @@
-function SearchForm({ keyword, onChangeKeyword }) {
+function SearchForm({ keyword, onChangeKeyword, searchInputRef }) {
   return (
     <div>
       <input
+        ref={searchInputRef}
         type="text"
         value={keyword}
         onChange={onChangeKeyword}

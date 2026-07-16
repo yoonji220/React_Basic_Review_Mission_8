@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useRef } from "react";
 import "./App.css";
 import SearchForm from "./components/SearchForm";
 import StudyList from "./components/StudyList";
@@ -11,6 +11,7 @@ function App() {
   const [category, setCategory] = useState("all");
   const [favoriteIds, setFavoriteIds] = useState([]);
   const [favoriteOnly, setFavoriteOnly] = useState(false);
+  const searchInputRef = useRef(null);
 
   const handleChangeKeyword = e => {
     setKeyword(e.target.value);
@@ -28,6 +29,15 @@ function App() {
 
   const handleToggleFavoriteOnly = () => {
     setFavoriteOnly(prev => !prev);
+  };
+
+  const handleReset = () => {
+    setKeyword("");
+    setCategory("all");
+    setFavoriteOnly(false);
+
+    // searchInputRef.current.value = "";
+    searchInputRef.current.focus();
   };
 
   const filteredData = useMemo(() => {
@@ -65,7 +75,11 @@ function App() {
       <section>
         <h2>학습 항목 검색</h2>
 
-        <SearchForm keyword={keyword} onChangeKeyword={handleChangeKeyword} />
+        <SearchForm
+          keyword={keyword}
+          onChangeKeyword={handleChangeKeyword}
+          searchInputRef={searchInputRef}
+        />
       </section>
 
       <CategoryFilter
@@ -76,6 +90,10 @@ function App() {
 
       <button type="button" onClick={handleToggleFavoriteOnly}>
         {favoriteOnly ? "전체 보기" : "즐겨찾기만 보기"}
+      </button>
+
+      <button type="button" onClick={handleReset}>
+        초기화
       </button>
 
       <StudySummary summary={summary} />
